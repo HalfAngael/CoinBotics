@@ -40,17 +40,36 @@ public class CoinInfo {
 	}
 	
 	public void update() {
+		public boolean buyMath() {
+			double threshold = 1.03;
+			if ((last5Transactions[0] > (last5Transactions[1] * threshold)) && ((last5Transactions[1] / last5Transactions[2]) > threshold)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		public boolean sellMath() {
+			double threshold = .97;
+			if ((last5Transactions[0] < (last5Transactions[1] * threshold)) && ((last5Transactions[1] / last5Transactions[2]) > threshold)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
 		System.out.println(amountGiven);
 		ticker = polo.returnTicker(coinName);
 		for (int i = last5Transactions.length - 2; i >= 0; i--) {
 			last5Transactions[i+1] = last5Transactions[i];
 		}
 		last5Transactions[0] = ticker.last;
-		if ( !bought && last5Transactions[0].doubleValue() > last5Transactions[1].doubleValue() && last5Transactions[1].doubleValue() > last5Transactions[2].doubleValue() ) {
+		if ( !bought && buyMath() && last5Transactions[1].doubleValue() > last5Transactions[2].doubleValue() ) {
 			buy();
 		}
 		else if ( bought ) {
-			if ( last5Transactions[0].doubleValue() < last5Transactions[1].doubleValue() && last5Transactions[1].doubleValue() < last5Transactions[2].doubleValue() && amountBoughtFor.doubleValue()*1.1 < last5Transactions[0].doubleValue()) {
+			if ( sellMath() && last5Transactions[1].doubleValue() < last5Transactions[2].doubleValue() && amountBoughtFor.doubleValue()*1.1 < last5Transactions[0].doubleValue()) {
 				sell();
 			}
 			else if ( amountBoughtFor.doubleValue() > last5Transactions[0].doubleValue() ) {
@@ -71,7 +90,7 @@ public class CoinInfo {
 			bought = true;
 			amountBoughtFor = buyPrice;
 			amountGiven -= amountGiven;
-			System.out.printf("Bought %f %s for %f each!", amount, coinName.substring(4, coinName.length()), buyPrice.doubleValue());
+			System.out.printf("Bought %f %s for %f each! \n", amount, coinName.substring(4, coinName.length()), buyPrice.doubleValue());
 		}
 	}
 	
@@ -87,7 +106,7 @@ public class CoinInfo {
 			bought = false;
 			amountBoughtFor = BigDecimal.ZERO;
 			amountGiven += amount.doubleValue() * sellPrice.doubleValue();
-			System.out.printf("Sold %f %s for %f each!", amount, coinName.substring(4, coinName.length()), sellPrice.doubleValue());
+			System.out.printf("Sold %f %s for %f each! \n", amount, coinName.substring(4, coinName.length()), sellPrice.doubleValue());
 		}
 	}
 }
