@@ -44,7 +44,6 @@ public class CoinInfo
 		return originalAmountGiven;
 	}
 	
-	
 	public boolean buyMath()
 	{
 		double threshold = 1.03; //Percent increase threshold for the most recent tick
@@ -170,9 +169,10 @@ public class CoinInfo
 		if (sellOrderResult.orderNumber != null)
 		{
 			bought = false;
-			amountBoughtFor = BigDecimal.ZERO;
 			amountGiven += amount.doubleValue() * sellPrice.doubleValue();
 			System.out.printf("Sold %f %s for %f each! \n", amount, coinName.substring(4, coinName.length()), sellPrice.doubleValue());
+			System.out.printf("Made a %f profit!", amountBoughtFor.doubleValue() * amount.doubleValue() - amountGiven);
+			amountBoughtFor = BigDecimal.ZERO;
 		}
 	}
 }
