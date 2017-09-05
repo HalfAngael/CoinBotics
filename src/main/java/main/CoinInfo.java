@@ -51,7 +51,7 @@ public class CoinInfo
 		int counter = 0;
 		int cThresh = 2; //Depends on how lenient you want to buy. Higher number means less likely to buy
 		
-		if ((last5Transactions[0].doubleValue() > ((last5Transactions[1].doubleValue() * threshold)))
+		if ((last5Transactions[0].doubleValue() > ((last5Transactions[1].doubleValue() * threshold))))
 		{
 			counter++;
 		}
